@@ -34,76 +34,78 @@ class _HakkimizdaSayfamState extends State<HakkimizdaSayfam> {
         ),
         backgroundColor: Colors.white,
         body: SafeArea(
-            child: Center(
+            child: SingleChildScrollView(
+              child: Center(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              CircleAvatar(
-                radius: 70.0,
-                backgroundColor: Colors.lime,
-                backgroundImage: AssetImage('images/logo.jpg'),
-              ),
-              Text(
-                'Hakiki Un',
-                style: GoogleFonts.oswald(
-                    textStyle: Theme.of(context).textTheme.headline3),
-              ),
-              Text(
-                "1940'dan beri hizmetinizde...",
-                style: TextStyle(fontSize: 14, color: Colors.brown),
-              ),
-              Container(
-                width: 220,
-                child: Divider(
-                  height: 40,
-                  color: Colors.brown,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 70.0,
+                  backgroundColor: Colors.lime,
+                  backgroundImage: AssetImage('images/logo.jpg'),
                 ),
-              ),
-              Container(
-                child: Text(
-                  'HAKKIMIZDA',
-                  style: TextStyle(fontSize: 25),
+                Text(
+                  'Hakiki Un',
+                  style: GoogleFonts.oswald(
+                      textStyle: Theme.of(context).textTheme.headline3),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Card(
-                  margin: EdgeInsets.symmetric(horizontal: 10.0),
-                  color: Color(0xFF8d6e63),
-                  child: ListTile(
-                      title: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      "Bu uygulama Dr. Öğretim Üyesi Ahmet Cevahir ÇINAR tarafından yürütülen 3301456 kodlu MOBİL PROGRAMLAMA dersi kapsamında 183301069 numaralı Onurhan KAYA tarafından 30 Nisan 2021 günü yapılmıştır.",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
+                Text(
+                  "1940'dan beri hizmetinizde...",
+                  style: TextStyle(fontSize: 14, color: Colors.brown),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.blueGrey),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AnaSayfam(),
-                        settings: RouteSettings(
-                          arguments: data,
-                        ),
+                Container(
+                  width: 220,
+                  child: Divider(
+                    height: 40,
+                    color: Colors.brown,
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    'HAKKIMIZDA',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Card(
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    color: Color(0xFF8d6e63),
+                    child: ListTile(
+                        title: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        "Bu uygulama Dr. Öğretim Üyesi Ahmet Cevahir ÇINAR tarafından yürütülen 3301456 kodlu MOBİL PROGRAMLAMA dersi kapsamında 183301069 numaralı Onurhan KAYA tarafından 30 Nisan 2021 günü yapılmıştır.",
+                        style: TextStyle(color: Colors.white),
                       ),
-                    );
-                  },
-                  child: Text('Geri Dön'),
+                    )),
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.blueGrey),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AnaSayfam(),
+                          settings: RouteSettings(
+                            arguments: data,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Text('Geri Dön'),
+                  ),
+                ),
+              ],
           ),
-        )),
+        ),
+            )),
       ),
     );
   }
