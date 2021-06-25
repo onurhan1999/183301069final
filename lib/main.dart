@@ -1,178 +1,82 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutterkahve/anasayfa.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:flutterkahve/screens/Welcome/welcome_screen.dart';
+import 'package:flutterkahve/constants.dart';
+import 'package:flutterkahve/pages/adsensesView.dart';
+import 'package:flutterkahve/pages/dailydatasView.dart';
+import 'package:flutterkahve/pages/domainFirmsView.dart';
+import 'package:flutterkahve/pages/domainsView.dart';
+import 'package:flutterkahve/pages/hostingsView.dart';
+import 'package:flutterkahve/pages/settingsView.dart';
+import 'package:flutterkahve/providers/domainfirms_provider.dart';
+import 'package:flutterkahve/screens/adminlogin/adminlogin_screen.dart';
+import 'package:flutterkahve/screens/login/login_screen.dart';
+import 'package:flutterkahve/screens/seotalep/seotalep_screen.dart';
+import 'package:flutterkahve/screens/signup/signup_screen.dart';
+import 'package:flutterkahve/services/auth/auth_methods.dart';
+import 'package:flutterkahve/services/domainfirms/firestore_domainfirms_service.dart';
+import 'package:flutterkahve/translations/codegen_loader.g.dart';
+import 'package:flutterkahve/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'notifiers/menu_notifier.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: girisSayfam(),
-  ));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(
+    EasyLocalization(
+        supportedLocales: [Locale('en', 'US'), Locale('tr', 'TR')],
+        path: 'assets/translations',
+        fallbackLocale: Locale('en', 'US'),
+        assetLoader: CodegenLoader(),
+        child: MyApp()),
+  );
 }
 
-class girisSayfam extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  _girisSayfamState createState() => _girisSayfamState();
-}
-
-class _girisSayfamState extends State<girisSayfam> {
-  @override
-  String adSoyad = '';
-  String mstrNo = '';
-  void _adSoyadKaydet(String text) {
-    setState(() {
-      adSoyad = text;
-    });
-  }
-
-  void _mstrNoKaydet(String text) {
-    setState(() {
-      mstrNo = text;
-    });
-  }
-
-  void kontrol() {
-    if ((adSoyad.length > 1) &&
-        (adSoyad.length <= 20) &&
-        (mstrNo.length == 9)) {
-      var data = [];
-      data.add(adSoyad);
-      data.add(mstrNo);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AnaSayfam(),
-          settings: RouteSettings(
-            arguments: data,
-          ),
-        ),
-      );
-    } else {}
-  }
-
   Widget build(BuildContext context) {
-    bool butonpasif = true;
-    if ((mstrNo.length == 9) && (adSoyad.length > 20)) {
-      butonpasif = false;
-    } else {
-      butonpasif = true;
-    }
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.brown,
-          centerTitle: true,
-          title: Text('Hakiki Un',
-              style: GoogleFonts.oswald(
-                  textStyle: Theme.of(context).textTheme.headline4)),
-        ),
-        backgroundColor: Colors.white,
-        body: SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-          padding: const EdgeInsets.only(top: 40),
-          child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                CircleAvatar(
-                  radius: 70.0,
-                  backgroundColor: Colors.lime,
-                  backgroundImage: AssetImage('images/logo.jpg'),
-                ),
-                Text(
-                  'Hakiki Un',
-                  style: GoogleFonts.oswald(
-                      textStyle: Theme.of(context).textTheme.headline3),
-                ),
-                Text(
-                  "1940'dan beri hizmetinizde...",
-                  style: TextStyle(fontSize: 14, color: Colors.brown),
-                ),
-                Container(
-                  width: 220,
-                  child: Divider(
-                    height: 40,
-                    color: Colors.brown,
-                  ),
-                ),
-                Container(
-                  child: Text(
-                    'Müşteri Girişine Hoş Geldiniz...',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Card(
-                  margin: EdgeInsets.symmetric(horizontal: 45.0),
-                  color: Colors.brown,
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.face,
-                      color: Colors.white,
-                    ),
-                    title: TextField(
-                      onChanged: (text) {
-                        _adSoyadKaydet(text);
-                      },
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        hintText: "Ad Soyad...",
-                        hintStyle: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Card(
-                  margin: EdgeInsets.symmetric(horizontal: 45.0),
-                  color: Colors.brown,
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.verified_user,
-                      color: Colors.white,
-                    ),
-                    title: TextField(
-                      onChanged: (text) {
-                        _mstrNoKaydet(text);
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: "Müşteri No...",
-                        hintStyle: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  child: Center(
-                      child: Text(
-                    '             Müşteri No 9 Hane Olmalıdır!\nAd-Soyad Max 20 Karakterden Oluşmalıdır!',
-                  )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.blueGrey),
-                    onPressed: () {
-                      kontrol();
-                    },
-                    child: Text('Giriş Yap'),
-                  ),
-                ),
-              ],
+    return MultiProvider(
+        providers: [
+          Provider<FlutterFireAuthService>(
+            create: (_) => FlutterFireAuthService(FirebaseAuth.instance),
           ),
-        ),
-            )),
-      ),
-    );
+          StreamProvider(
+            create: (context) =>
+            context.read<FlutterFireAuthService>().authStateChanges,
+            initialData: null,
+          ),
+          ChangeNotifierProvider(create: (context) => DomainFirmsProvider()),
+          StreamProvider(create: (context)=> FirestoreDomainFirmsService().getDomainFirms()),
+          ChangeNotifierProvider(create: (context) => MenuDrawerNotifier()),
+        ],
+        child: MaterialApp(
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          debugShowCheckedModeBanner: false,
+          title: LocaleKeys.appname.tr(),
+          theme: ThemeData(
+            primaryColor: kPrimaryColor,
+            scaffoldBackgroundColor: Colors.white,
+          ),
+          home: WelcomeScreen(),
+          routes: {
+            "home": (_) => WelcomeScreen(),
+            "signup": (_) => SignUpScreen(),
+            "login": (_) => LoginScreen(),
+            "seotalep": (_) => SeoTalepScreen(),
+            "adminlogin": (_) => AdminLoginScreen(),
+            "domainfirms": (_) => DomainFirmsView(),
+            "domains": (_) => DomainsView(),
+            "hostings": (_) => HostingsView(),
+            "adsenses": (_) => AdsensesView(),
+            "dailydatas": (_) => DailyDatasView(),
+            "settings": (_) => SettingsView(),
+          },
+        ));
   }
 }
